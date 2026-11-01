@@ -1,51 +1,35 @@
-# Computer Vision: Classification and Segmentation
+# Computer vision: segmentation and transfer learning
 
-I implemented computer vision workflows for image classification, semantic segmentation, face verification, and neural style transfer. The work spans NumPy convolution operations, TensorFlow/Keras architectures, and inference using pretrained feature extractors.
+Two computer-vision workflows demonstrate U-Net semantic segmentation and MobileNetV2 transfer learning. Both build on supplied notebook scaffolding and datasets; the contributions and limitations are stated in each notebook.
 
-## My implementation
+## Road-scene segmentation with U-Net
 
-- Implemented convolution and pooling operations with backpropagation, residual blocks, and a U-Net encoder-decoder within the supplied notebooks.
-- Built a MobileNetV2 transfer-learning workflow with augmentation and fine-tuning.
-- Implemented triplet loss and content/style objectives for embedding-based applications.
+[Open the segmentation notebook](W3_Object_Detection/z_completed/W3A2/Image_segmentation_Unet_v2.ipynb)
 
-## Selected results
+A U-Net encoder-decoder produces pixel-level road-scene predictions. The saved example compares an input image, reference mask and model output.
 
-The ResNet notebook records **80.83% test accuracy**. The U-Net notebook includes an input image, reference mask, and predicted mask; its saved training accuracy is not a held-out segmentation benchmark. The examples below show outputs from the segmentation and style-transfer workflows.
+![Road-scene segmentation example](assets/readme/segmentation-prediction.png)
 
-Pretrained MobileNetV2, face-embedding, and VGG models supply learned features where indicated. My work focuses on the implemented components and application workflows. Results and images are from saved notebook runs.
+**Evidence and limitation:** The saved notebook includes training outputs and qualitative masks, but no held-out mIoU or class-wise evaluation. The visual is not evidence of generalization.
 
-## Visual examples
+## Alpaca image classification with MobileNetV2
 
-### Semantic segmentation
+[Open the transfer-learning notebook](W2_Deep_CNN_models_case_studies/W2A2/Transfer_learning_with_MobileNet_v1.ipynb)
 
-![Input scene, ground-truth mask, and U-Net prediction](assets/readme/segmentation-prediction.png)
+A pretrained MobileNetV2 backbone is adapted for binary image classification with augmentation and fine-tuning.
 
-A saved U-Net example compares the input image, reference mask, and predicted segmentation.
+![Saved MobileNetV2 training and validation curves](assets/readme/mobilenet-training-curves.png)
 
-### Neural style transfer
+**Evidence and limitation:** The final displayed validation accuracy in the saved run is approximately 92.31%. The notebook does not report an independent held-out test benchmark or class-wise errors.
 
-![Saved generated image from the neural style transfer optimization](assets/readme/neural-style-transfer.png)
+## Reproduction requirements
 
-The generated image combines content and style losses computed from pretrained VGG features.
+The original environment has not been pinned or revalidated. The notebooks use Python, TensorFlow/Keras, NumPy and Matplotlib, with image-processing libraries and supplied helper files. U-Net expects `data/CameraRGB/` and `data/CameraMask/`; MobileNet expects `dataset/` and the pretrained weight files under `imagenet_base_model/`. These datasets and weight files are not all included. Restore compatible inputs and versions before running either notebook.
 
-## Projects
+## Next evaluation
 
-| Project | Implementation |
-| --- | --- |
-| [Convolutions from scratch](W1_Foundations%20of%20CNN/W1A1/W1A1/Convolution_model_Step_by_Step_v1.ipynb) | NumPy implementations of convolution, padding, pooling, and backpropagation. |
-| [CNN image classification](W1_Foundations%20of%20CNN/W1A1/W1A2/Convolution_model_Application.ipynb) | Building and training convolutional models in TensorFlow/Keras. |
-| [Residual networks](W2_Deep_CNN_models_case_studies/W2A1/Residual_Networks.ipynb) | Identity and convolutional blocks for a ResNet architecture. |
-| [Transfer learning](W2_Deep_CNN_models_case_studies/W2A2/Transfer_learning_with_MobileNet_v1.ipynb) | Data augmentation and fine-tuning a pretrained MobileNetV2 backbone. |
-| [U-Net segmentation](W3_Object_Detection/z_completed/W3A2/Image_segmentation_Unet_v2.ipynb) | An encoder-decoder model with skip connections for pixel-level predictions. |
-| [Face verification and recognition](W4_Face_Recognition%20%26%20Neural%20style%20transfer/ANSWERED/W4A1/Face_Recognition.ipynb) | Triplet loss and comparisons between pretrained face embeddings. |
-| [Neural style transfer](W4_Face_Recognition%20%26%20Neural%20style%20transfer/ANSWERED/W4A2/Art_Generation_with_Neural_Style_Transfer.ipynb) | Optimizing an image using content and style representations from pretrained VGG features. |
+For U-Net, define an independent test split and report mean and class-wise intersection over union, with examples of missed objects and difficult scenes. For MobileNetV2, compare a frozen-backbone baseline with fine-tuning on a held-out test set and report class-level precision, recall and failure cases. Neither evaluation is included in the saved notebooks.
 
-## Run locally
+## Attribution
 
-The notebooks use Python, NumPy, TensorFlow/Keras, Matplotlib, Pillow, h5py, and imageio. Open Jupyter from the selected notebook directory. Restore the datasets and pretrained weights at the relative paths used by that notebook, then run its cells in order. Some notebooks require TensorFlow/Keras versions compatible with their original APIs.
-
-Figures and metrics on this page are taken from saved notebook outputs. A fresh environment and full execution have not been verified for this documentation update.
-
-## Acknowledgements
-
-Developed from exercises in Andrew Ng's Deep Learning Specialization by DeepLearning.AI. The original problem statements, starter code, supplied utilities, diagrams, datasets, and pretrained models belong to their respective authors. Existing third-party attribution and licenses are retained.
+Adapted from exercises in DeepLearning.AI’s Deep Learning Specialization. The original notebook scaffolding, utilities, diagrams, datasets and pretrained models belong to their respective authors. Saved metrics and visual outputs have not been regenerated for this presentation update.
